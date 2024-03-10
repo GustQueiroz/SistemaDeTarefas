@@ -18,24 +18,46 @@ namespace SistemaDeTarefas.Repositorios
             return await _dbContext.Usuarios.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<List<UsuarioModel>> BuscarTodosUsuarios()
+        public async Task<List<UsuarioModel>> BuscarTodosUsuarios()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Usuarios.ToListAsync();
         }
-        public Task<UsuarioModel> Adicionar(UsuarioModel usuario)
+        public async Task<UsuarioModel> Adicionar(UsuarioModel usuario)
         {
-            throw new NotImplementedException();
+            _dbContext.Usuarios.Add(usuario);
+            _dbContext.SaveChanges();
+            return usuario;
+        }
+        public async Task<UsuarioModel> Atualizar(UsuarioModel usuario, int id)
+        {
+            UsuarioModel usuarioPorId = await BuscarPorId(id);
+            if(usuarioPorId == null)
+            {
+                throw new Exception($"Usuario para o ID: {id} não foi encontrado");
+            }
+
+            usuarioPorId.Name = usuario.Name;
+            usuarioPorId.Email = usuario.Email;
+
+            _dbContext.Usuarios.Update(usuarioPorId);
+            _dbContext.SaveChanges();
+            return usuarioPorId;
         }
 
-        public Task<bool> Apagar(int id)
+        public async Task<bool> Apagar(int id)
         {
-            throw new NotImplementedException();
+            UsuarioModel usuarioPorId = await BuscarPorId(id);
+            if (usuarioPorId == null)
+            {
+                throw new Exception($"Usuario para o ID: {id} não foi encontrado");
+            }
+
+           _dbContext.Usuarios.Remove(usuarioPorId);
+            _dbContext.SaveChanges();
+            return true;
         }
 
-        public Task<UsuarioModel> Atualizar(UsuarioModel usuario, int id)
-        {
-            throw new NotImplementedException();
-        }
+
 
     }
 }
