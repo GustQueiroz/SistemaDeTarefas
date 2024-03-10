@@ -1,4 +1,5 @@
-﻿using SistemaDeTarefas.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SistemaDeTarefas.Data;
 using SistemaDeTarefas.Models;
 using SistemaDeTarefas.Repositorios.Interfaces;
 
@@ -12,9 +13,9 @@ namespace SistemaDeTarefas.Repositorios
             _dbContext = sistemaTarefasDBContex;
         }
 
-        public Task<UsuarioModel> BuscarPorId(int id)
+        public async Task<UsuarioModel> BuscarPorId(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Usuarios.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public Task<List<UsuarioModel>> BuscarTodosUsuarios()
