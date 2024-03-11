@@ -22,7 +22,7 @@ namespace SistemaDeTarefas.Repositorios
         {
             return await _dbContext.Usuarios.ToListAsync();
         }
-        public async Task<UsuarioModel> Adicionar(UsuarioModel)
+        public async Task<UsuarioModel> Adicionar(UsuarioModel usuario)
         {
             await _dbContext.Usuarios.AddAsync(usuario);
             await _dbContext.SaveChangesAsync();
